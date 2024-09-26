@@ -2,4 +2,4 @@
 
 **Documentation Coming Soon**
 
-![image info](./RobocopLogUniversel.png)
+![image info](./Robocoplog_banner.jpg)
