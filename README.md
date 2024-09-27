@@ -241,7 +241,9 @@ Discordance Yes (Fic)   Yes (Rép)        n/a             n/a            n/a
 
 ## Releases
 
-- Version `1.0` | 26/09/2024
+- Version `1.0`  | 26/09/2024
+- Version `1.01` | 27/09/2024
+	- Bug fix : When the $ParseType option was full, the end summary was not correctly parsed due to a bad condition
 
 ## Links
 - [https://github.com/Letalys/Powershell-ConvertFrom-RobocopLog](https://github.com/Letalys/Powershell-ConvertFrom-RobocopLog)
