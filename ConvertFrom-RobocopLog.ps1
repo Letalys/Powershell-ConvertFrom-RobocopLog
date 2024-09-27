@@ -68,21 +68,23 @@
                                 Fichier     la Source   la Destination   Date fichier    Taille fichier Attributs
                                 =========== =========== ================ =============== =============  ============
                                 solitaire   Oui         Non              n/a             n/a            n/a
-                                Tweaked     Oui         Oui              Identique       Identique      DiffÈrent
+                                Tweaked     Oui         Oui              Identique       Identique      Diff√©rent
                                 identique   Oui         Oui              Equal           Identique      Identique
-                                ModifiÈ     Oui         Oui              Equal           Different      n/a
-                                Plus rÈcent Oui         Oui              Source > Dest   n/a            n/a
+                                Modifi√©     Oui         Oui              Equal           Different      n/a
+                                Plus r√©cent Oui         Oui              Source > Dest   n/a            n/a
                                 Plus ancien Oui         Oui              Source < Dest   n/a            n/a
-                                SupplÈment. Non         Oui              n/a             n/a            n/a
-                                Discordance Yes (Fic)   Yes (RÈp)        n/a             n/a            n/a
+                                Suppl√©ment. Non         Oui              n/a             n/a            n/a
+                                Discordance Yes (Fic)   Yes (R√©p)        n/a             n/a            n/a
 
     AUTHOR              : Letalys
 
     SCRIPT              : ConvertFrom-RobocopLog.ps1
-    SCRIPTVERSION       : 1.0
+    SCRIPTVERSION       : 1.01
 
-    RELEASENOTES        : Version 1.0 | 2024-09-26
-                                Initial version.
+    RELEASENOTES        : Version 1.0  | 2024-09-26
+                                         Initial version.
+			  Version 1.01 | 2024-09-27
+                               Bug fix : When the $ParseType option was full, the end summary was not correctly parsed due to a bad condition
 
 #>
 
@@ -167,7 +169,7 @@ function ConvertFrom-RobocopLog {
         }
         "fr-FR" = @{
             #Parsing header
-            Start        = "DÈmarrage†:"
+            Start        = "D√©marrage¬†:"
             Source       = "Source :"
             Destination  = "Dest :"
             FilesSection = "Fichiers :"
@@ -175,17 +177,17 @@ function ConvertFrom-RobocopLog {
 			
 			#Parsing Files
             NewFile      = "Nouveau fichier"
-            NewerFile    = "Plus rÈcent"
+            NewerFile    = "Plus r√©cent"
             OlderFile    = "Plus ancien"
             SameFile     = "identique"
 			ExtraFile    = "Fichier SUPPL."
-            ModifiedFile = "ModifiÈ"
+            ModifiedFile = "Modifi√©"
             LonelyFile   = "solitaire"
             TweakedFile  = "<TWEAKED F>"
             	
 			#Parsing Directories
-            NewDir       = "Nouveau rÈp."
-            ExtraDir     = "RÈp. SUPPL."
+            NewDir       = "Nouveau r√©p."
+            ExtraDir     = "R√©p. SUPPL."
             LonelyDir    = "solitaire"
 
             #Error
@@ -195,21 +197,21 @@ function ConvertFrom-RobocopLog {
             ErrorDelExtraFile = "Deleting Extra File"
 			
 			#Parsing Summary
-            DirsSummary  = "RÈp\u00A0:"  # Added non-breaking space (Unicode \u00A0)
+            DirsSummary  = "R√©p\u00A0:"  # Added non-breaking space (Unicode \u00A0)
             FilesSummary = "Fichiers\u00A0:"
-            Bytes        = "Octets†:"
+            Bytes        = "Octets¬†:"
             Times        = "Heures:"
             Ended        = "Fin :"
 
             #Warning Scripts
-            WarningDateTime            = "L'horodatage n'a pas pu Ítre converti en DateTime."
-            WarningNewFileExist        = "Nouveau Fichier       : Cette entrÈe existe dÈj‡ et ne sera pas ajoutÈe."
-            WarningModifiedFileExist   = "Fichier ModifiÈ       : Cette entrÈe existe dÈj‡ et ne sera pas ajoutÈe."
-            WarningNewerFileExist      = "Fichier RÈcent        : Cette entrÈe existe dÈj‡ et ne sera pas ajoutÈe."
-            WarningOlderFileExist      = "Fichier Ancien        : Cette entrÈe existe dÈj‡ et ne sera pas ajoutÈe."
-            WarningExtraFileExist      = "Fichier Suppl.        : Cette entrÈe existe dÈj‡ et ne sera pas ajoutÈe."
-            WarningTweakedFileExist    = "Fichier ModifiÈ (Attr): Cette entrÈe existe dÈj‡ et ne sera pas ajoutÈe."
-            WarningFailedFileExist     = "Fichier Echec         : Cette entrÈe existe dÈj‡ et ne sera pas ajoutÈe."
+            WarningDateTime            = "L'horodatage n'a pas pu √™tre converti en DateTime."
+            WarningNewFileExist        = "Nouveau Fichier       : Cette entr√©e existe d√©j√† et ne sera pas ajout√©e."
+            WarningModifiedFileExist   = "Fichier Modifi√©       : Cette entr√©e existe d√©j√† et ne sera pas ajout√©e."
+            WarningNewerFileExist      = "Fichier R√©cent        : Cette entr√©e existe d√©j√† et ne sera pas ajout√©e."
+            WarningOlderFileExist      = "Fichier Ancien        : Cette entr√©e existe d√©j√† et ne sera pas ajout√©e."
+            WarningExtraFileExist      = "Fichier Suppl.        : Cette entr√©e existe d√©j√† et ne sera pas ajout√©e."
+            WarningTweakedFileExist    = "Fichier Modifi√© (Attr): Cette entr√©e existe d√©j√† et ne sera pas ajout√©e."
+            WarningFailedFileExist     = "Fichier Echec         : Cette entr√©e existe d√©j√† et ne sera pas ajout√©e."
         }
     }
 
@@ -426,7 +428,7 @@ function ConvertFrom-RobocopLog {
                         }
                     }
 
-                    # Gestion des fichiers identiques (SameFiles) avec rÈcupÈration de la taille et de l'horodatage si prÈsent
+                    # Gestion des fichiers identiques (SameFiles) avec r√©cup√©ration de la taille et de l'horodatage si pr√©sent
                     elseif ($line -match "\s*$($Culture.SameFile)\s+([\d\.]+(?:\s*\w+)?)?\s*(\d{4}/\d{2}/\d{2}\s\d{2}:\d{2}:\d{2})?\s*(\w:[\\/].+|\\\\.+)$") {
                         # Capture the raw file size (with or without units), if present
                         $fileSizeRaw = if ($matches[1]) { $matches[1].Trim() } else { $null }
@@ -457,7 +459,7 @@ function ConvertFrom-RobocopLog {
                         }
                     }
 
-                    # Gestion des fichiers plus rÈcent (Newer) avec rÈcupÈration de la taille et de l'horodatage si prÈsent
+                    # Gestion des fichiers plus r√©cent (Newer) avec r√©cup√©ration de la taille et de l'horodatage si pr√©sent
                     elseif ($line -match "\s*$($Culture.NewerFile)\s+([\d\.]+(?:\s*\w+)?)?\s*(\d{4}/\d{2}/\d{2}\s\d{2}:\d{2}:\d{2})?\s*(\w:[\\/].+|\\\\.+)$") {
                         # Capture the raw file size (with or without units), if present
                         $fileSizeRaw = if ($matches[1]) { $matches[1].Trim() } else { $null }
@@ -533,7 +535,7 @@ function ConvertFrom-RobocopLog {
                             # Adding the file to the list
                             $Log.Files.Older += [pscustomobject]@{
                                 FilePath   = $filePath    # Chemin du fichier
-                                FileSize   = $fileSizeRaw  # Taille brute avec ou sans unitÈ
+                                FileSize   = $fileSizeRaw  # Taille brute avec ou sans unit√©
                                 Timestamp  = $fileTimestamp  # Horodatage converti en DateTime (ou null si absent)
                             }
                         }else{
@@ -695,11 +697,11 @@ function ConvertFrom-RobocopLog {
                     }
                 #endregion END Parsing Directory Classes
             } #end of elseif $Parsetype -eq Full
-        #endregion FIN Parsing Full (RÈpertoire et Fichiers)
+        #endregion FIN Parsing Full (R√©pertoire et Fichiers)
 
         #region Parsing Summary
             # Parsing Summary
-            elseif ($line -match "^\s*$($Culture.DirsSummary)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)$") {
+            if ($line -match "^\s*$($Culture.DirsSummary)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)$") {
                 $Log.SummaryInfo.Dirs.Total    = [int]$matches[1]
                 $Log.SummaryInfo.Dirs.Copied   = [int]$matches[2]
                 $Log.SummaryInfo.Dirs.Skipped  = [int]$matches[3]
@@ -759,7 +761,7 @@ function ConvertFrom-RobocopLog {
             $Log.SummaryInfo.TotalTimeFromFile = "{0:D2}d:{1:D2}h:{2:D2}m:{3:D2}s" -f $fileDuration.Days, $fileDuration.Hours, $fileDuration.Minutes, $fileDuration.Seconds
         }
         catch {
-            Write-Warning "Impossible de calculer TotalTimeFromFile en raison d'une erreur avec les mÈtadonnÈes du fichier."
+            Write-Warning "Impossible de calculer TotalTimeFromFile en raison d'une erreur avec les m√©tadonn√©es du fichier."
         }
     #endregion END Calculation Extra data
 
