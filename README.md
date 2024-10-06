@@ -182,17 +182,24 @@ Then remember to add your language option to the function and/or script paramete
 **This section covers the options that Robocopy must use to generate its log in order to be analyzed by RobocopLog** 
 *For more information about Robocopy options click on the link: [Microsoft Learn : Robocopy](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy)*
 
+**JOB Options** : Not tested.
+
+|    Options   | Supported   | Microsoft Description                                         |
+|:------------:|:-----------:|:--------------------------------------------------------------|
+|/xf           | no	     | Excludes files that match the specified names or paths. Wildcard characters (* and ?) are supporte    |
+|/nc           | no	     | Excludes directories that match the specified names and paths.     |
+
 |Log Options   | Supported   | Comments                                                                                | Microsoft Description                                         |
 |:------------:|:-----------:|:----------------------------------------------------------------------------------------|:--------------------------------------------------------------|
-|/fp           | yes		 | **Mandatory** : FullPath need to be generated for bein captured by parsing              |Includes the full path names of the files in the output.       |
-|/nc           | no		     | **Forbidden** : Class need to be generated during log because they are used for parsing |Specifies that file classes aren't to be logged.               |
+|/fp           | yes	     | **Mandatory** : FullPath need to be generated for bein captured by parsing              |Includes the full path names of the files in the output.       |
+|/nc           | no	     | **Forbidden** : Class need to be generated during log because they are used for parsing |Specifies that file classes aren't to be logged.               |
 
 |Log Options   | Supported   | Recommended* | Microsoft Description |
 |:------------:|:-----------:|:------------:|:----------------------|
-|/log+         | **no**      |    	-       |Writes the status output to the log file (appends the output to the existing log file).|
-|/unilog+      | **no**	     |    	-       |Writes the status output to the log file (appends the output to the existing log file).|
-|/unicode      | **no**	     |    	-       |Displays the status output as unicode text.   |
-|/v            | yes		 |      yes     |Produces verbose output, and shows all skipped files.|
+|/log+         | **no**      |      -       |Writes the status output to the log file (appends the output to the existing log file).|
+|/unilog+      | **no**	     |      -       |Writes the status output to the log file (appends the output to the existing log file).|
+|/unicode      | **no**	     |      -       |Displays the status output as unicode text.   |
+|/v            | yes         |      yes     |Produces verbose output, and shows all skipped files.|
 |/ts           | yes	     |      yes     |Includes source file time stamps in the output.|
 |/byte         | yes	     |      yes     |Prints sizes as bytes.|
 |/ns           | yes	     |      no      |Specifies that file sizes aren't to be logged.|
