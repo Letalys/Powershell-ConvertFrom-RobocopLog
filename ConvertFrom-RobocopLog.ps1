@@ -62,7 +62,7 @@ param (
     [String]$FailedList = "None"
 )
 
-function ConvertFrom-RobocopLog {
+function ConvertFrom-RobocopLogLite {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -376,7 +376,7 @@ function ConvertFrom-RobocopLog {
 }
 
 try{
-    $ReturnLog = (ConvertFrom-RobocopLog -RoboLog $RoboLog -LogLanguage $LogLanguage -FailedList $FailedList)
+    $ReturnLog = (ConvertFrom-RobocopLogLite -RoboLog $RoboLog -LogLanguage $LogLanguage -FailedList $FailedList)
 	return $ReturnLog
 }catch{
     Write-Error $_
